@@ -16,8 +16,7 @@ void main() {
       // 장바구니 담기
       insert_product(myshoppingmall);
     } else if (a == 3) {
-      int allprice = myshoppingmall.allprice;
-      print('장바구니에 $allprice원 어치를 담으셨네요!\n');
+      showshopping(myshoppingmall);
     } else if (a == 4) {
       if (check_exit()) {
         print('이용해 주셔서 감사합니다 ~ 안녕히 계세요 !');
@@ -25,6 +24,8 @@ void main() {
       } else {
         print('종료하지 않습니다.\n');
       }
+    } else if (a == 6) {
+      resetshopping(myshoppingmall);
     }
   }
 }
@@ -33,7 +34,7 @@ int startshopping() {
   print(
       '--------------------------------------------------------------------------------------------------\n');
   print(
-      '[1] 상품 목록 보기 / [2] 장바구니에 담기 / [3] 장바구니에 담긴 상품의 총 가격 보기 / [4] 프로그램 종료\n');
+      '[1] 상품 목록 보기 / [2] 장바구니에 담기 / [3] 장바구니에 담긴 상품의 총 가격 보기 / [4] 프로그램 종료 / [6] 장바구니 비우기\n');
   print(
       '--------------------------------------------------------------------------------------------------\n');
 
@@ -47,6 +48,8 @@ int startshopping() {
       return 3;
     } else if (input == '4') {
       return 4;
+    } else if (input == '6') {
+      return 6;
     } else {
       print('지원하지 않는 기능입니다 ! 다시 시도해 주세요 ...\n');
     }
@@ -94,7 +97,7 @@ void insert_product(Shoppingmall shop) {
 }
 
 bool check_exit() {
-  print('정말 종료하시겠습니까?\n');
+  print('정말 종료하시겠습니까? [5] 누르면 종료\n');
   String? input = stdin.readLineSync();
 
   if (int.parse(input!) == 5) {
@@ -110,4 +113,32 @@ bool isInt(String? n) {
   } else {
     return int.tryParse(n) != null;
   }
+}
+
+void resetshopping(Shoppingmall shop) {
+  if (shop.my_items.isEmpty) {
+    print('이미 장바구니가 비어있습니다.');
+  } else {
+    shop.my_items.clear();
+    shop.allprice = 0;
+    print('장바구니를 초기화합니다.');
+  }
+}
+
+void showshopping(Shoppingmall shop) {
+  int allprice = shop.allprice;
+  List<String> items = [];
+
+  if (items.isEmpty) {
+    print('장바구니에 아무것도 없네요..');
+  } else {
+    for (int i = 0; i < shop.my_items.length; i++) {
+      items.add(shop.my_items[i].name);
+    }
+    String a = items.join(', ');
+
+    print('장바구니에' + a + '(이)가 담겨있네요.');
+  }
+
+  print('총 가격 $allprice원 입니다!\n');
 }
