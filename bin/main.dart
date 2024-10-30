@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:console_shoppingmall/product.dart';
@@ -61,7 +62,7 @@ void insert_product(Shoppingmall shop) {
   late int times;
 
   print('상품 이름을 입력해 주세요!');
-  String? inputName = stdin.readLineSync();
+  String? inputName = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
   print('상품 개수를 입력해 주세요!');
   String? inputCount = stdin.readLineSync();
 
@@ -129,7 +130,7 @@ void showshopping(Shoppingmall shop) {
   int allprice = shop.allprice;
   List<String> items = [];
 
-  if (items.isEmpty) {
+  if (shop.my_items.isEmpty) {
     print('장바구니에 아무것도 없네요..');
   } else {
     for (int i = 0; i < shop.my_items.length; i++) {
@@ -137,7 +138,7 @@ void showshopping(Shoppingmall shop) {
     }
     String a = items.join(', ');
 
-    print('장바구니에 $a (이)가 담겨있네요.');
+    print('장바구니에 [ $a ](이)가 담겨있네요.');
   }
 
   print('총 가격 $allprice원 입니다!\n');
