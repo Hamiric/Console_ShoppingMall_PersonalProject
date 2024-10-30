@@ -137,7 +137,7 @@ void showshopping(Shoppingmall shop) {
     }
     String a = items.join(', ');
 
-    print('장바구니에' + a + '(이)가 담겨있네요.');
+    print('장바구니에 $a (이)가 담겨있네요.');
   }
 
   print('총 가격 $allprice원 입니다!\n');
