@@ -18,7 +18,7 @@ class Shoppingmall {
 
   void showProducts() {
     for (int i = 0; i < items.length; i++) {
-      print(items[i].name + ' / ' + items[i].price.toString() + '원\n');
+      print('${items[i].name} / ${items[i].price}원\n');
     }
   }
 
