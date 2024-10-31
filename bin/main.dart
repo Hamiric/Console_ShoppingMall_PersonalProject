@@ -37,12 +37,14 @@ void main() {
       // 6 입력시, 장바구니를 초기화 시켜주기
       case 6:
         resetshopping(myshoppingmall);
+        break;
+      default:
+        print('지원하지 않는 기능입니다 ! 다시 시도해 주세요 ...\n');
     }
   }
 }
 
-// 메뉴를 호출하고, 사용자 입력을 받는데, 기능이 있는 1,2,3,4,6 만 인식하여 반환
-// 만약 1,2,3,4,6 이외의 입력이 들어온다면, 입력을 다시 시도
+// 메뉴를 호출하고, 사용자 입력을 받는데 정수값만 반환하고, 아닐경우 -1 반환
 int startshopping() {
   String? input;
 
@@ -51,18 +53,10 @@ int startshopping() {
   while (true) {
     input = userinput();
 
-    if (input == '1') {
-      return 1;
-    } else if (input == '2') {
-      return 2;
-    } else if (input == '3') {
-      return 3;
-    } else if (input == '4') {
-      return 4;
-    } else if (input == '6') {
-      return 6;
+    if(isInt(input)){
+      return int.parse(input!);
     } else {
-      print('지원하지 않는 기능입니다 ! 다시 시도해 주세요 ...\n');
+      return -1;
     }
   }
 }
@@ -70,11 +64,11 @@ int startshopping() {
 // 메뉴
 void menu() {
   print(
-      '--------------------------------------------------------------------------------------------------\n');
+      '______________________________________________________________________________________________________________________\n');
   print(
       '[1] 상품 목록 보기 / [2] 장바구니에 담기 / [3] 장바구니에 담긴 상품의 총 가격 보기 / [4] 프로그램 종료 / [6] 장바구니 비우기\n');
   print(
-      '--------------------------------------------------------------------------------------------------\n');
+      '‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\n');
 }
 
 // 상품을 장바구니에 넣는 로직
@@ -88,7 +82,7 @@ void insertproduct(Shoppingmall shop) {
   print('상품 개수를 입력해 주세요!');
   String? inputCount = userinput();
 
-  // 입력받은 상품 이름과 상품 목록들을 비교하여, 목록에 있으면 true, 없으면 false
+  // 입력받은 상품 이름과 상품 목록들을 비교하여, 목록에 없으면 false
   bool aFlag = false;
   for (int i = 0; i < shop.items.length; i++) {
     if (inputName == shop.items[i].name) {
@@ -97,36 +91,30 @@ void insertproduct(Shoppingmall shop) {
       break;
     }
   }
-
   // 입력받은 개수값이 숫자가 아닌 경우 false
-  if(int.tryParse(inputCount!) == null) aFlag = false;
+  if (isInt(inputCount!) == false) aFlag = false;
 
+  // 즉, 상품명이 상품 목록에 있어야 하고, 개수값이 정수일 경우 로직 실행
   if (aFlag) {
-    // 상품이 목록에 있는 경우(true) 다음 로직 수행
-    if (isInt(inputCount)) {
-      // 입력받은 개수값이 정수값인지를 판별하여 times에 입력
-      times = int.parse(inputCount!);
-      // times가 1보다 적을 경우 리턴, times가 1보다 큰 경우 다음 로직 수행
-      if (times < 1) {
-        print('0개보다 많은 개수의 상품만 담을 수 있어요 !\n');
-        return;
-      }
-    } else {
-      print('개수 입력값이 올바르지 않아요!\n');
+    // 입력받은 개수값을 times에 입력
+    times = int.parse(inputCount);
+    // times가 1보다 적을 경우 리턴, times가 1보다 큰 경우 다음 로직 수행
+    if (times < 1) {
+      print('0개보다 많은 개수의 상품만 담을 수 있어요!\n');
       return;
     }
   } else {
     // flag 값이 false인 경우 올바르지 않은 입력값이라고 고지 및 리턴
-    print('입력값이 올바르지 않아요! 입력한 상품은 리스트에 없는 상품이에요!\n');
+    print('입력값이 올바르지 않아요!\n');
     return;
   }
 
   // 장바구니에 개수만큼 상품을 담는 로직
   shop.addToCart(a, times);
-  print('장바구니에 상품이 담겼어요 !\n');
+  print('장바구니에 상품이 담겼어요!\n');
 }
 
-// 입력받은 개수값이 정수값인지를 판별
+// 입력받은값이 정수값인지를 판별 (null,글자는 false, 정수는 true)
 bool isInt(String? n) {
   if (n == null) {
     return false;
@@ -149,11 +137,10 @@ bool checkexit() {
 
 // 장바구니를 초기화 하는 로직. 만약 장바구니에 아무것도 없을경우엔 장바구니가 비어있다고 고지
 void resetshopping(Shoppingmall shop) {
-  if (shop.my_items.isEmpty) {
+  if (shop.isEmptyMyItems()) {
     print('이미 장바구니가 비어있습니다.');
   } else {
-    shop.my_items.clear();
-    shop.allprice = 0;
+    shop.resetMyItems();
     print('장바구니를 초기화합니다.');
   }
 }
@@ -163,11 +150,11 @@ void showshopping(Shoppingmall shop) {
   int allprice = shop.showTotal();
   List<String> items = [];
 
-  if (shop.my_items.isEmpty) {
+  if (shop.isEmptyMyItems()) {
     print('장바구니에 아무것도 없네요..');
   } else {
-    for (int i = 0; i < shop.my_items.length; i++) {
-      items.add(shop.my_items[i].name);
+    for (int i = 0; i < shop.myitems.length; i++) {
+      items.add(shop.myitems[i].name);
     }
     String a = items.join(', ');
 

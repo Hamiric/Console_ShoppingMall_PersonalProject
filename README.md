@@ -30,10 +30,20 @@
 ## 🚨 Trouble Shooting
 
 <details>
-<summary>기존 개발환경에서 한글 입력이 정상적으로 되지 않는 문제</summary>
+<summary>📚기존 개발환경(Window)에서 한글 입력이 정상적으로 되지 않는 문제</summary>
 <div markdown="1">
 
-### [TIL - 콘솔 쇼핑몰 (24.10.39)](https://hamiric.tistory.com/39)
+### [TIL - 콘솔 쇼핑몰 (24.10.29)](https://hamiric.tistory.com/39)
+
+ <br>
+</div>
+</details>
+
+<details>
+<summary>🎨비효율적으로 작성 및 사용되고 있던 코드개선</summary>
+<div markdown="1">
+
+### [TIL - 코드개선 (24.10.31)](https://hamiric.tistory.com/42)
 
  <br>
 </div>
