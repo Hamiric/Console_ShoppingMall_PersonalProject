@@ -98,6 +98,9 @@ void insertproduct(Shoppingmall shop) {
     }
   }
 
+  // 입력받은 개수값이 숫자가 아닌 경우 false
+  if(int.tryParse(inputCount!) == null) aFlag = false;
+
   if (aFlag) {
     // 상품이 목록에 있는 경우(true) 다음 로직 수행
     if (isInt(inputCount)) {
@@ -113,8 +116,8 @@ void insertproduct(Shoppingmall shop) {
       return;
     }
   } else {
-    // 상품이 목록에 없는 경우(false) 없는 상품이라고 고지 및 리턴
-    print('상품이름 입력값이 올바르지 않아요! 입력한 상품은 리스트에 없는 상품이에요!\n');
+    // flag 값이 false인 경우 올바르지 않은 입력값이라고 고지 및 리턴
+    print('입력값이 올바르지 않아요! 입력한 상품은 리스트에 없는 상품이에요!\n');
     return;
   }
 
