@@ -128,8 +128,12 @@ bool checkexit() {
   print('정말 종료하시겠습니까? [5] 누르면 종료\n');
   String? input = userinput();
 
-  if (int.parse(input!) == 5) {
-    return true;
+  try{
+    if (int.parse(input!) == 5) {
+      return true;
+    }
+  } catch(e) {
+    // input 에 숫자형태가 들어오지 않은 경우는 어차피 프로그램 종료를 하지 않는 형태
   }
 
   return false;
